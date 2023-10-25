@@ -1,20 +1,20 @@
 #include "sort.h"
 
 /**
- * get_max - Get the maximum value in an array of integers.
- * @array: An array of integers.
- * @size: The size of the array.
+ * gt_mx - Get the maximum value in an array of integers.
+ * @arr: An array of integers.
+ * @sz: The size of the array.
  *
  * Return: The maximum integer in the array.
  */
-int get_max(int *array, int size)
+int gt_mx(int *arr, int sz)
 {
 	int max, i;
 
-	for (max = array[0], i = 1; i < size; i++)
+	for (max = arr[0], i = 1; i < sz; i++)
 	{
-		if (array[i] > max)
-			max = array[i];
+		if (arr[i] > max)
+			max = arr[i];
 	}
 
 	return (max);
@@ -23,30 +23,30 @@ int get_max(int *array, int size)
 /**
  * radix_counting_sort - Sort the significant digits of an array of integers
  *                       in ascending order using the counting sort algorithm.
- * @array: An array of integers.
- * @size: The size of the array.
- * @sig: The significant digit to sort on.
- * @buff: A buffer to store the sorted array.
+ * @arr: An array of integers.
+ * @sz: The size of the array.
+ * @sign: The significant digit to sort on.
+ * @buf: A buffer to store the sorted array.
  */
-void radix_counting_sort(int *array, size_t size, int sig, int *buff)
+void radix_counting_sort(int *arr, size_t sz, int sign, int *buf)
 {
-	int count[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	int count[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	size_t i;
 
-	for (i = 0; i < size; i++)
-		count[(array[i] / sig) % 10] += 1;
+	for (i = 0; i < sz; i++)
+		count[(arr[i] / sign) % 10] += 1;
 
 	for (i = 0; i < 10; i++)
 		count[i] += count[i - 1];
 
-	for (i = size - 1; (int)i >= 0; i--)
+	for (i = sz - 1; (int)i >= 0; i--)
 	{
-		buff[count[(array[i] / sig) % 10] - 1] = array[i];
-		count[(array[i] / sig) % 10] -= 1;
+		buf[count[(arr[i] / sign) % 10] - 1] = arr[i];
+		count[(arr[i] / sign) % 10] -= 1;
 	}
 
-	for (i = 0; i < size; i++)
-		array[i] = buff[i];
+	for (i = 0; i < sz; i++)
+		arr[i] = buf[i];
 }
 
 /**
@@ -60,21 +60,21 @@ void radix_counting_sort(int *array, size_t size, int sig, int *buff)
  */
 void radix_sort(int *array, size_t size)
 {
-	int max, sig, *buff;
+	int max, sign, *buf;
 
 	if (array == NULL || size < 2)
 		return;
 
-	buff = malloc(sizeof(int) * size);
-	if (buff == NULL)
+	buf = malloc(sizeof(int) * size);
+	if (buf == NULL)
 		return;
 
-	max = get_max(array, size);
-	for (sig = 1; max / sig > 0; sig *= 10)
+	max = gt_mx(array, size);
+	for (sign = 1; max / sign > 0; sign *= 10)
 	{
-		radix_counting_sort(array, size, sig, buff);
+		radix_counting_sort(array, size, sign, buf);
 		print_array(array, size);
 	}
 
-	free(buff);
+	free(buf);
 }

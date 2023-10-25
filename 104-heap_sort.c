@@ -1,44 +1,44 @@
 #include "sort.h"
 
 /**
- * swap_ints - Swap two integers in an array.
- * @a: The first integer to swap.
- * @b: The second integer to swap.
+ * swapping_ints - Swap two integers in an array.
+ * @x: The first integer to swap.
+ * @y: The second integer to swap.
  */
-void swap_ints(int *a, int *b)
+void swapping_ints(int *x, int *y)
 {
-	int tmp;
+	int temp;
 
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
+	temp = *x;
+	*x = *y;
+	*y = temp;
 }
 
 /**
- * max_heapify - Turn a binary tree into a complete binary heap.
+ * mx_heap - Turn a binary tree into a complete binary heap.
  * @array: An array of integers representing a binary tree.
- * @size: The size of the array/tree.
- * @base: The index of the base row of the tree.
- * @root: The root node of the binary tree.
+ * @sz: The size of the array/tree.
+ * @bs: The index of the base row of the tree.
+ * @rt: The root node of the binary tree.
  */
-void max_heapify(int *array, size_t size, size_t base, size_t root)
+void mx_heap(int *array, size_t sz, size_t bs, size_t rt)
 {
 	size_t left, right, large;
 
-	left = 2 * root + 1;
-	right = 2 * root + 2;
-	large = root;
+	left = 2 * rt + 1;
+	right = 2 * rt + 2;
+	large = rt;
 
-	if (left < base && array[left] > array[large])
+	if (left < bs && array[left] > array[large])
 		large = left;
-	if (right < base && array[right] > array[large])
+	if (right < bs && array[right] > array[large])
 		large = right;
 
-	if (large != root)
+	if (large != rt)
 	{
-		swap_ints(array + root, array + large);
-		print_array(array, size);
-		max_heapify(array, size, base, large);
+		swapping_ints(array + rt, array + large);
+		print_array(array, sz);
+		mx_heap(array, sz, bs, large);
 	}
 }
 
@@ -59,12 +59,12 @@ void heap_sort(int *array, size_t size)
 		return;
 
 	for (i = (size / 2) - 1; i >= 0; i--)
-		max_heapify(array, size, size, i);
+		mx_heap(array, size, size, i);
 
 	for (i = size - 1; i > 0; i--)
 	{
-		swap_ints(array, array + i);
+		swapping_ints(array, array + i);
 		print_array(array, size);
-		max_heapify(array, size, i, 0);
+		mx_heap(array, size, i, 0);
 	}
 }

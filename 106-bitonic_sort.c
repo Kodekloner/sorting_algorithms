@@ -6,69 +6,69 @@
 #include "sort.h"
 
 /**
- * swap_ints - Swap two integers in an array.
- * @a: The first integer to swap.
- * @b: The second integer to swap.
+ * swapping_ints - Swap two integers in an array.
+ * @x: The first integer to swap.
+ * @y: The second integer to swap.
  */
-void swap_ints(int *a, int *b)
+void swapping_ints(int *x, int *y)
 {
-	int tmp;
+	int temp;
 
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
+	temp = *x;
+	*x = *y;
+	*y = temp;
 }
 
 /**
- * bitonic_merge - Sort a bitonic sequence inside an array of integers.
- * @array: An array of integers.
- * @size: The size of the array.
- * @start: The starting index of the sequence in array to sort.
- * @seq: The size of the sequence to sort.
- * @flow: The direction to sort in.
+ * btn_mrg - Sort a bitonic sequence inside an array of integers.
+ * @arr: An array of integers.
+ * @sz: The size of the array.
+ * @strt: The starting index of the sequence in array to sort.
+ * @sq: The size of the sequence to sort.
+ * @flw: The direction to sort in.
  */
-void bitonic_merge(int *array, size_t size, size_t start, size_t seq,
-		char flow)
+void btn_mrg(int *arr, size_t sz, size_t strt, size_t sq,
+		char flw)
 {
-	size_t i, jump = seq / 2;
+	size_t i, jump = sq / 2;
 
-	if (seq > 1)
+	if (sq > 1)
 	{
-		for (i = start; i < start + jump; i++)
+		for (i = strt; i < strt + jump; i++)
 		{
-			if ((flow == UP && array[i] > array[i + jump]) ||
-			    (flow == DOWN && array[i] < array[i + jump]))
-				swap_ints(array + i, array + i + jump);
+			if ((flw == TOP && arr[i] > arr[i + jump]) ||
+			    (flw == BOTTOM && arr[i] < arr[i + jump]))
+				swapping_ints(arr + i, arr + i + jump);
 		}
-		bitonic_merge(array, size, start, jump, flow);
-		bitonic_merge(array, size, start + jump, jump, flow);
+		btn_mrg(arr, sz, strt, jump, flw);
+		btn_mrg(arr, sz, strt + jump, jump, flw);
 	}
 }
 
 /**
- * bitonic_seq - Convert an array of integers into a bitonic sequence.
- * @array: An array of integers.
- * @size: The size of the array.
- * @start: The starting index of a block of the building bitonic sequence.
- * @seq: The size of a block of the building bitonic sequence.
- * @flow: The direction to sort the bitonic sequence block in.
+ * btnc_sq - Convert an array of integers into a bitonic sequence.
+ * @arr: An array of integers.
+ * @sz: The size of the arr.
+ * @strt: The strting index of a block of the building bitonic sequence.
+ * @sq: The size of a block of the building bitonic sequence.
+ * @flw: The direction to sort the bitonic sequence block in.
  */
-void bitonic_seq(int *array, size_t size, size_t start, size_t seq, char flow)
+void btnc_sq(int *arr, size_t sz, size_t strt, size_t sq, char flw)
 {
-	size_t cut = seq / 2;
-	char *str = (flow == UP) ? "UP" : "DOWN";
+	size_t cut = sq / 2;
+	char *str = (flw == TOP) ? "UP" : "DOWN";
 
-	if (seq > 1)
+	if (sq > 1)
 	{
-		printf("Merging [%lu/%lu] (%s):\n", seq, size, str);
-		print_array(array + start, seq);
+		printf("Merging [%lu/%lu] (%s):\n", sq, sz, str);
+		print_array(arr + strt, sq);
 
-		bitonic_seq(array, size, start, cut, UP);
-		bitonic_seq(array, size, start + cut, cut, DOWN);
-		bitonic_merge(array, size, start, seq, flow);
+		btnc_sq(arr, sz, strt, cut, TOP);
+		btnc_sq(arr, sz, strt + cut, cut, BOTTOM);
+		btn_mrg(arr, sz, strt, sq, flw);
 
-		printf("Result [%lu/%lu] (%s):\n", seq, size, str);
-		print_array(array + start, seq);
+		printf("Result [%lu/%lu] (%s):\n", sq, sz, str);
+		print_array(arr + strt, sq);
 	}
 }
 
@@ -86,5 +86,5 @@ void bitonic_sort(int *array, size_t size)
 	if (array == NULL || size < 2)
 		return;
 
-	bitonic_seq(array, size, 0, size, UP);
+	btnc_sq(array, size, 0, size, TOP);
 }
