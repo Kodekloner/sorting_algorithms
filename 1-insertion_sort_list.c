@@ -41,7 +41,7 @@ void insertion_sort_list(listint_t **list)
 		ins = ite->prev;
 		while (ins != NULL && ite->n < ins->n)
 		{
-			swap_nodes(list, &ins, ite);
+			swapping_ndes(list, &ins, ite);
 			print_list((const listint_t *)*list);
 		}
 	}
