@@ -5,12 +5,6 @@
 
 #include "sort.h"
 
-void swap_ints(int *a, int *b);
-void bitonic_merge(int *array, size_t size, size_t start, size_t seq,
-		char flow);
-void bitonic_seq(int *array, size_t size, size_t start, size_t seq, char flow);
-void bitonic_sort(int *array, size_t size);
-
 /**
  * swap_ints - Swap two integers in an array.
  * @a: The first integer to swap.
