@@ -27,7 +27,7 @@ void swap_nd_ahead(listint_t **lst, listint_t **bottom, listint_t **mixer)
 }
 
 /**
- * swap_node_behind - Swap a node in a listint_t doubly-linked
+ * swap_nd_behind - Swap a node in a listint_t doubly-linked
  *                    list of integers with the node behind it.
  * @lst: A pointer to the head of a doubly-linked list of integers.
  * @bottom: A pointer to the tail of the doubly-linked list.
