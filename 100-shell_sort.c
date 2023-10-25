@@ -11,6 +11,7 @@
 void shell_sort(int *array, size_t size)
 {
 	size_t gp, x, y;
+	int temp;
 
 	if (array == NULL || size < 2)
 		return;
@@ -25,9 +26,9 @@ void shell_sort(int *array, size_t size)
 			y = x;
 			while (y >= gp && array[y - gp] > array[y])
 			{
-				tmp = array[y];
+				temp = array[y];
         array[y] = array[y - gp];
-        array[y - gp] = tmp;
+        array[y - gp] = temp;
 				y -= gp;
 			}
 		}
